@@ -1,8 +1,8 @@
-<<<<<<< HEAD
+
 .idea/*
-*.pyc
 .DS_Store
-=======
+venv/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -60,4 +60,3 @@ docs/_build/
 
 # PyBuilder
 target/
->>>>>>> 591c8f5501b9f1a30369d674ad242f4784855ef5
