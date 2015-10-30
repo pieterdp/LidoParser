@@ -14,6 +14,7 @@ class GenericTerm(GenericXMLParser):
         self.xml_node = xml_node
         self.attributes = self.get_attributes_as_dict(self.xml_node)
         self.type = self.get_attribute('type')
+        self.sortorder = self.get_attribute('sortorder')
         self.conceptID = self.get_concept_id()
         self.term = self.get_term()
 

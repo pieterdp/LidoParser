@@ -3,6 +3,8 @@ from . import GenericLeafNode, GenericXMLParser, GenericNameSet, GenericTerm
 from .event_sub.event_place import EventPlace
 from .event_sub.event_date import EventDate
 from .event_sub.event_actor import EventActor
+from .event_sub.event_materials_tech import EventMaterialsTech
+from .event_sub.thing_present import ThingPresent
 
 
 class Event(GenericXMLParser):
@@ -40,31 +42,28 @@ class Event(GenericXMLParser):
         return self.repeatable_node(self.xml_event, 'lido:eventActor', EventActor)
 
     def get_culture(self):
-        pass
+        return self.repeatable_node(self.xml_event, 'lido:culture', GenericTerm)
 
     def get_event_date(self):
         return self.single_optional_node(self.xml_event, 'lido:eventDate', EventDate)
 
     def get_period_name(self):
-        pass
+        return self.repeatable_node(self.xml_event, 'lido:periodName', GenericTerm)
 
     def get_event_places(self):
         return self.repeatable_node(self.xml_event, 'lido:eventPlace', EventPlace)
 
     def get_event_method(self):
-        pass
+        return self.repeatable_node(self.xml_event, 'lido:eventMethod', GenericTerm)
 
     def get_event_materials_tech(self):
-        pass
-
-    def get_thing_event(self):
-        pass
+        return self.repeatable_node(self.xml_event, 'lido:eventMaterialsTech', EventMaterialsTech)
 
     def get_thing_present(self):
-        pass
+        return self.repeatable_node(self.xml_event, 'lido:thingPresent', ThingPresent)
 
     def get_related_event_set(self):
-        pass
+        return self.repeatable_node(self.xml_event, 'lido:relatedEventSet', RelatedEventSet)
 
     def get_event_description_set(self):
         pass
@@ -95,3 +94,19 @@ class EventSet(GenericXMLParser):
         for xml_display_event in xml_display_events:
             display_events.append(GenericLeafNode(xml_display_event))
         return display_events
+
+
+class RelatedEventSet(GenericXMLParser):
+    def __init__(self, xml_related_event_set):
+        self.xml_related_event_set = xml_related_event_set
+        self.attributes = self.get_attributes_as_dict(self.xml_related_event_set)
+        self.sortorder = self.get_attribute_from_dict('sortorder', self.attributes)
+
+
+class EventWrap(GenericXMLParser):
+    def __init__(self, xml_event_wrap):
+        self.xml_event_wrap = xml_event_wrap
+        self.eventSet = self.get_event_set()
+
+    def get_event_set(self):
+        return self.repeatable_node(self.xml_event_wrap, 'lido:eventSet', EventSet)

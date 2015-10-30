@@ -77,4 +77,4 @@ class GenericXMLParser:
         if len(input_nodes) == 1:
             return [node_class(input_nodes[0])]
         else:
-            return []
+            return [None]
