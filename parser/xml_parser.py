@@ -78,3 +78,16 @@ class GenericXMLParser:
             return [node_class(input_nodes[0])]
         else:
             return [None]
+
+    def single_required_node(self, container, xpath_expression, node_class):
+        """
+        Return a single required event. Return node_class(lido_element) in a list.
+        :param container:
+        :param xpath_expression:
+        :param node_class:
+        :return:
+        """
+        input_nodes = self.xpath(container, xpath_expression)
+        if len(input_nodes) != 1:
+            raise ParseError('Error: multiple or no nodes for a required single node. Either your XML is invalid or the programmer made a mistake.')
+        return [node_class(input_nodes[0])]

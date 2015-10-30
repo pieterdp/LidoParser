@@ -81,19 +81,10 @@ class EventSet(GenericXMLParser):
         return self.get_attribute_from_dict(attribute, self.attributes)
 
     def get_event(self):
-        events = self.xpath(self.xml_event_set, 'lido:event')
-        if len(events) > 1:
-            raise ParseError
-        if len(events) < 1:
-            return [None]
-        return [Event(events.pop())]
+        return self.single_required_node(self.xml_event_set, 'lido:event', Event)
 
     def get_display_events(self):
-        xml_display_events = self.xpath(self.xml_event_set, 'lido:displayEvent')
-        display_events = []
-        for xml_display_event in xml_display_events:
-            display_events.append(GenericLeafNode(xml_display_event))
-        return display_events
+        return self.repeatable_node(self.xml_event_set, 'lido:displayEvent', GenericLeafNode)
 
 
 class RelatedEventSet(GenericXMLParser):
@@ -101,6 +92,27 @@ class RelatedEventSet(GenericXMLParser):
         self.xml_related_event_set = xml_related_event_set
         self.attributes = self.get_attributes_as_dict(self.xml_related_event_set)
         self.sortorder = self.get_attribute_from_dict('sortorder', self.attributes)
+        self.relatedEvent = self.get_related_event()
+        self.relatedEventRelType = self.get_related_event_rel_type()
+
+    def get_related_event(self):
+        return self.single_optional_node(self.xml_related_event_set, 'lido:relatedEvent', RelatedEvent)
+
+    def get_related_event_rel_type(self):
+        return self.single_optional_node(self.xml_related_event_set, 'lido:relatedEventRelType', GenericTerm)
+
+
+class RelatedEvent(GenericXMLParser):
+    def __init__(self, xml_related_event):
+        self.xml_related_event = xml_related_event
+        self.displayEvent = self.get_display_event()
+        self.event = self.get_event()
+
+    def get_display_event(self):
+        return self.repeatable_node(self.xml_related_event, 'lido:displayEvent', GenericLeafNode)
+
+    def get_event(self):
+        return self.single_required_node(self.xml_related_event, 'lido:event', Event)
 
 
 class EventWrap(GenericXMLParser):

@@ -1,6 +1,25 @@
 from . import GenericNameSet, GenericXMLParser, GenericLeafNode, GenericTerm
 
 
+class GML(GenericXMLParser):
+    def __init__(self, xml_gml):
+        self.xml_gml = xml_gml
+        self.attributes = self.get_attributes_as_dict(self.xml_gml)
+        self.lang = self.get_attribute_from_dict('xml:lang', self.xml_gml)
+        self.Point = self.get_point()
+        self.LineString = self.get_line_string()
+        self.Polygon = self.get_polygon()
+
+    def get_point(self):
+        pass
+
+    def get_line_string(self):
+        pass
+
+    def get_polygon(self):
+        pass
+
+
 class Place(GenericXMLParser):
     def __init__(self, xml_place):
         self.xml_place = xml_place
@@ -26,7 +45,8 @@ class Place(GenericXMLParser):
         return self.repeatable_node(self.xml_place, 'lido:partOfPlace', Place)
 
     def get_gml(self):
-        pass
+        print("Warning: GML is not implemented (yet)")
+        return self.repeatable_node(self.xml_place, 'gml', GML)
 
     def get_place_classification(self):
         return self.repeatable_node(self.xml_place, 'lido:placeClassification', GenericTerm)
