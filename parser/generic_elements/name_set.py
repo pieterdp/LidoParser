@@ -14,6 +14,8 @@ class GenericNameSet(GenericXMLParser):
         self.attributes = self.get_attributes_as_dict(self.xml_node)
         self.appellationValue = self.get_appellation_values()
         self.sourceAppellation = self.get_source_appellation()
+        self.type = self.get_attribute_from_dict('type', self.attributes)
+        self.sortorder = self.get_attribute_from_dict('sortorder', self.attributes)
 
     def get_appellation_values(self):
         return self.repeatable_node(self.xml_node, 'lido:appellationValue', GenericLeafNode)

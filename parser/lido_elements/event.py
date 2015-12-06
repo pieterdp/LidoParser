@@ -5,6 +5,7 @@ from .event_sub.event_date import EventDate
 from .event_sub.event_actor import EventActor
 from .event_sub.event_materials_tech import EventMaterialsTech
 from .event_sub.thing_present import ThingPresent
+from .event_sub.event_description_set import EventDescriptionSet
 
 
 class Event(GenericXMLParser):
@@ -66,7 +67,7 @@ class Event(GenericXMLParser):
         return self.repeatable_node(self.xml_event, 'lido:relatedEventSet', RelatedEventSet)
 
     def get_event_description_set(self):
-        pass
+        return self.repeatable_node(self.xml_event, 'lido:eventDescriptionSet', EventDescriptionSet)
 
 
 class EventSet(GenericXMLParser):
