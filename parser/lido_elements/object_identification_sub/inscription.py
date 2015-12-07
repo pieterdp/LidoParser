@@ -10,6 +10,17 @@ class InscriptionsWrap(GenericXMLParser):
         return self.repeatable_node(self.inscriptions_wrap_xml, 'lido:inscriptions', Inscriptions)
 
 
+class InscriptionDescription(GenericXMLParser):
+    def __init__(self, inscription_description_xml):
+        self.inscription_description_xml = inscription_description_xml
+        self.attributes = self.get_attributes_as_dict(self.inscription_description_xml)
+        self.type = self.get_attribute_from_dict('type', self.attributes)
+        self.sortorder = self.get_attribute_from_dict('sortorder', self.attributes)
+        self.descriptiveNoteID = self.get_descriptive_note_id()
+        self.descriptiveNoteValue = self.get_descriptive_note_value()
+        self.sourceDescriptiveNote = self.get_source_descriptive_note()
+
+
 class Inscriptions(GenericXMLParser):
     def __init__(self, inscriptions_xml):
         self.inscriptions_xml = inscriptions_xml
